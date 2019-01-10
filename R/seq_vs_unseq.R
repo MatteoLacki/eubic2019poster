@@ -4,6 +4,9 @@ library(ggthemes)
 library(scales)
 
 dpath = "/Users/matteo/Projects/retentiontimealignment/Data"
+oppath = "/Users/matteo/Projects/retentiontimealignment/posters/eubic2019/R/img"
+
+
 
 d_seq = read.csv(file.path(dpath, 'annotated_data.csv'))
 d_unseq = read.csv(file.path(dpath, 'unannotated_data.csv'))
@@ -48,8 +51,13 @@ counts1 = D %>%
     fills +
     theme_tufte()
 
-plot_grid(
+seq_vs_unsqeq_plot = plot_grid(
     counts1 + theme(legend.position="none"),
     density1 + theme(legend.position=c(.8,.9),
                      legend.title=element_blank()),
-    align='h', rel_widths=c(1,4))
+    align='h', rel_widths=c(1,4),
+    labels='AUTO'
+)
+
+cowplot::ggsave(file.path(oppath, 'seq_vs_unseq_plot.pdf'), 
+    width=12, height=2)
