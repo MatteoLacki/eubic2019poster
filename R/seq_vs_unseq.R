@@ -3,11 +3,7 @@ library(cowplot)
 library(ggthemes)
 library(scales)
 
-dpath = "/Users/matteo/Projects/retentiontimealignment/Data"
-oppath = "/Users/matteo/Projects/retentiontimealignment/posters/eubic2019/R/img"
-
-d_seq = as_tibble(read.csv(file.path(dpath, 'annotated_data.csv')))
-d_unseq = as_tibble(read.csv(file.path(dpath, 'unannotated_data.csv')))
+source("common.R")
 
 # D = bind_rows(
 #     d_seq %>% filter(run == 1),
@@ -23,9 +19,6 @@ D_stat = D %>%
     group_by(sequenced) %>%
     mutate(freq = n/sum(n)) %>%
     ungroup
-
-colors = scale_color_manual(values = c("orange", "black"))
-fills = scale_fill_manual(values = c("orange", "black"))
 
 rt_freq_plot = D_stat %>%
     ggplot(aes(x = rt_rounded, y=freq, group=sequenced, color=sequenced)) +

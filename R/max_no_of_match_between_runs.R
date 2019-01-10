@@ -3,11 +3,7 @@ library(cowplot)
 library(ggthemes)
 library(scales)
 
-dpath = "/Users/matteo/Projects/retentiontimealignment/Data"
-oppath = "/Users/matteo/Projects/retentiontimealignment/posters/eubic2019/R/img"
-
-d_seq = as_tibble(read.csv(file.path(dpath, 'annotated_data.csv')))
-d_unseq = as_tibble(read.csv(file.path(dpath, 'unannotated_data.csv')))
+source("common.R")
 
 # D = bind_rows(
 #     d_seq %>% filter(run == 1),
@@ -16,4 +12,26 @@ d_unseq = as_tibble(read.csv(file.path(dpath, 'unannotated_data.csv')))
 D = bind_rows(d_seq, d_unseq)
 D = D %>% mutate(sequenced = ifelse(is.na(sequence), "sequenced", "unsequenced"))
 
+W = bind_rows(
+	d_unseq %>% group_by(run) %>% count %>% mutate(status='unsequenced') %>% ungroup,
+	d_seq %>% group_by(run) %>% count %>% mutate(status='sequenced') %>% ungroup
+) %>% 
+mutate(run=ordered(run))
+
+max_pept = length(levels(d_seq$id))
+
+W %>% ggplot(aes(x=run, y=n, fill=status)) +
+geom_bar(stat='identity', position='dodge') +
+scale_y_continuous(labels=comma)+
+fills +
+xlab("Technical Replicate") +
+ylab("Peptides") +
+geom_hline(yintercept=max_pept,
+		   linetype='dashed') +
+theme(legend.title=element_blank(), legend.position=c(.85,.9)) +
+annotate("text", x=12, y=max_pept , label = "") +
+annotate("text", x=11.2, y=max_pept * 1.2, label = "best x-annotation")
+
+cowplot::ggsave(file.path(oppath, 'seq_vs_unseq_plot.pdf'), 
+    width=12, height=3)
 
