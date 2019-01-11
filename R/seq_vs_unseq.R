@@ -5,13 +5,6 @@ library(scales)
 
 source("common.R")
 
-# D = bind_rows(
-#     d_seq %>% filter(run == 1),
-#     d_unseq %>% filter(run == 1)
-# )
-D = bind_rows(d_seq, d_unseq)
-D = D %>% mutate(sequenced = ifelse(is.na(sequence), "sequenced", "unsequenced"))
-
 # simplifying data
 D_stat = D %>%
     group_by(sequenced, rt_rounded = round(rt,0)) %>%
@@ -22,7 +15,7 @@ D_stat = D %>%
 
 rt_freq_plot = D_stat %>%
     ggplot(aes(x = rt_rounded, y=freq, group=sequenced, color=sequenced)) +
-    geom_line() +
+    geom_line(size=linesize) +
     xlab("Retention Time [min]") +
     ylab("Frequency") +
     theme_tufte() +
@@ -57,7 +50,7 @@ mass_freq_plot = D %>%
     mutate(freq = n/sum(n)) %>%
     ungroup %>%
     ggplot(aes(x = mass_rounded, y=freq, group=sequenced, color=sequenced)) +
-    geom_line() +
+    geom_line(size=linesize) +
     xlab("Mass [Da]") +
     ylab("Frequency") +
     theme_tufte() +
@@ -71,8 +64,8 @@ dt_freq_plot = D %>%
     mutate(freq = n/sum(n)) %>%
     ungroup %>%
     ggplot(aes(x = dt_rounded, y=freq, group=sequenced, color=sequenced)) +
-    geom_line() +
-    xlab("Drift Time") +
+    geom_line(size=linesize) +
+    xlab("Drift Time [bins of around 13 milliseconds]") +
     ylab("Frequency") +
     theme_tufte() +
     colors +
@@ -102,6 +95,9 @@ dt_freq_plot = D %>%
 #     ncol=2
 # )
 
+save(rt_freq_plot, file='img/rt_freq_plot.Rd')
+save(mass_freq_plot, file='img/mass_freq_plot.Rd')
+save(dt_freq_plot, file='img/dt_freq_plot.Rd')
 
 plt=plot_grid(counts1 + theme(legend.position="none") + coord_flip(),
               rt_freq_plot + theme(legend.position=c(.9,.8), legend.title=element_blank()),
