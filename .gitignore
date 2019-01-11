@@ -1,0 +1,22 @@
+# the poster pdf itself
+eubic2019.pdf
+
+# VIM
+*.swp
+
+# TEX
+*.aux
+*.bbl
+*.fdb_latexmk
+*.fls
+*.log
+*.out
+*.synctex.gz
+*.xdv
+*.blg
+
+# HTML
+*.html
+
+# PAGES
+*.pages

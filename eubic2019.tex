@@ -43,8 +43,32 @@
 	\end{tikzfigure}
 } 
 
-\block{Retention Time Alignment to the rescue}{
-	Brag about the RTA.
+\block{Retention Time Alignment to the rescue!}{
+	\begin{itemize}
+		\item our task is to adjust the retention times observed across $S$ technical replicates
+		\item we construct $S$ \texttt{alignments}, i.e. functions $F_s: \mathbb{R}_+ \rightarrow \mathbb{R}_+$ that act on the retention times of observed peptides measured at different technical replicates, $RT_{sp}$, where
+		\begin{itemize}
+			\item $s = 1,\dots,S$ is a technical replicate number
+			\item $p$ denotes a peptide from all observed peptides $\mathfrak{P}$
+		\end{itemize}
+		\item the \texttt{alignments} $F_s$ must meet some requirements. In particular, they must be
+		\begin{itemize}
+			\item strictly increasing, as otherwise they could glue some some $RT_{sp}$
+			\item not influenced much by the miss-assigned peptides
+		\end{itemize}
+	\end{itemize}
+	% \begin{itemize}
+	% 	\good our tasks are:
+	% 	\begin{itemize}
+	% 		\item filter out the miss-assigned peptides
+	% 		\item get rid of the systematic deviations
+	% 	\end{itemize}
+	% 	\good 
+	% \end{itemize}
+
+	% \coloredbox{
+	% 	hhah
+	% }
 }
 
 
@@ -53,8 +77,17 @@
 
 
 \block{Other similar approaches}{
-	The idea of the retention times alignment is not new.
-	The \texttt{Match Between Runs} has been a standard part of the \texttt{Max Quant} software\cite{tyanova2016maxquant}.
+	\begin{itemize}
+		\bad the idea of the retention times alignment is not new
+		\begin{itemize}
+			\item the \texttt{Match Between Runs} has been a standard part of \texttt{MaxQuant}\cite{tyanova2016maxquant}
+			\item presented solutions simplify some of the procedures already present in \texttt{IsoQuant}\cite{distler2013drift,kuharev2015depth}
+		\end{itemize}
+		\ugly retention time alignment used in \texttt{IsoQuant} is not based on the MS-based identifications
+	\end{itemize}
+	
+	
+
 }
 
 \block{Literature}{
